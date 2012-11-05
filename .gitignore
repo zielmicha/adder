@@ -1,0 +1,5 @@
+*.o
+*~
+/bad/
+/TAGS
+/adder
