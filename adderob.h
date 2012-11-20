@@ -46,7 +46,25 @@ AType_def(ASym,
           struct Astr data;);
 
 // -------------------
+// AInt
+// -------------------
+
+AObj AInt_make(long value);
+void AInt_init();
+
+extern AType AInt_type;
+AType_def(AInt,
+         long value;);
+
+// -------------------
 // ADict
 // -------------------
+
+AObj ADict_make();
+void ADict_put(AObj self, AObj key, AObj val);
+AObj ADict_get(AObj self, AObj key);
+
+extern AType ADict_type;
 AType_def(ADict,
-          struct Astr data;);
+          int size;
+          AObj data;);

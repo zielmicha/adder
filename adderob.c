@@ -6,8 +6,6 @@
 // ---------------
 
 AType AList_type;
-AType AString_type;
-AType ASym_type;
 AObj A_nil;
 
 int AList_gc_get_refs(AObj self, int seg, AObj** refs);
@@ -63,6 +61,8 @@ char* AList_dump(AObj self) {
 // AString
 // ---------------
 
+AType AString_type;
+
 char* AString_dump(AObj self);
 void AString_init() {
   AString_type = AType_create("string");
@@ -114,6 +114,8 @@ AObj AString_join(char* sep, AObj list) {
 // ASym
 // ---------------
 
+AType ASym_type;
+
 char* ASym_dump(AObj self);
 void ASym_init() {
   ASym_type = AType_create("sym");
@@ -129,7 +131,26 @@ AObj ASym_make(char* data) {
   return Astr_alloc(ASym_type, 0, data, strlen(data));
 }
 
+// ---------------
+// AInt
+// ---------------
 
-// ---------------
-// ADict
-// ---------------
+
+AType AInt_type;
+
+char* AInt_dump(AObj self);
+void AInt_init() {
+  AInt_type = AType_create("int");
+  AInt_type->dump = AInt_dump;
+  AGC_add_root((AObj*)&AInt_type);
+}
+
+AObj AInt_make(long value) {
+  AInt n = AObj_NEW(AInt);
+  n->value = value;
+  return (AObj)n;
+}
+
+char* AInt_dump(AObj self) {
+  return A_format("%ld", ((AInt)self)->value);
+}
