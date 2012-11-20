@@ -1,3 +1,5 @@
+#include "adder.h"
+
 AType ADict_type;
 
 char* ADict_dump(AObj self);

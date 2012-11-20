@@ -1,7 +1,8 @@
 CC=gcc
-CFLAGS=-Wall -Werror -pedantic -std=gnu99 -g
-LDFLAGS=-g
+CFLAGS=-Wall -Werror -pedantic -std=gnu99 -g -fPIC
+LDFLAGS=-g -fPIC
 HEADERS=adder.h adderob.h
+OBJECTFILES=adder.o addergc.o adderob.o adderstr.o addercore.o adderdict.o
 all: adder
 adder.o: adder.c $(HEADERS)
 	$(CC) $(CFLAGS) adder.c -c -o adder.o
@@ -15,5 +16,9 @@ addercore.o: addercore.c $(HEADERS)
 	$(CC) $(CFLAGS) addercore.c -c -o addercore.o
 adderdict.o: adderdict.c $(HEADERS)
 	$(CC) $(CFLAGS) adderdict.c -c -o adderdict.o
-adder: adder.o addergc.o adderob.o adderstr.o addercore.o adderdict.ol
-	$(CC) $(LDFLAGS) adder.o addergc.o adderob.c adderstr.o addercore.o adderdict.o -o adder
+adder.a: $(OBJECTFILES)
+	ar t adder.a $(OBJECTFILES)
+adder: $(OBJECTFILES)
+	$(CC) $(LDFLAGS) $(OBJECTFILES) -o adder
+clean:
+	rm *.o adder.a
